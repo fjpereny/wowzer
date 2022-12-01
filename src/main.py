@@ -6,6 +6,8 @@ from threading import Thread
 import wowzer
 from Xlib import display, X
 
+import sight.mana_bar as mana_bar
+
 
 class MainAgent:
     def __init__(self):
@@ -32,6 +34,8 @@ def run():
     update_screen_thread = Thread(target=update_screen, args=(main_agent,), name="update screen thread")
     update_screen_thread.start()
 
+    mana_bar_thread = Thread(target=mana_bar.watch_mana, args=(main_agent,), name="mana bar")
+    mana_bar_thread.start()
 
 if __name__ == '__main__':
     wowzer.run()
