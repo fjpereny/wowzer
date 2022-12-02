@@ -1,5 +1,4 @@
-
-import cv2
+1
 from PIL import Image
 import time
 from threading import Thread
@@ -7,6 +6,7 @@ import wowzer
 from Xlib import display, X
 
 import sight.mana_bar as mana_bar
+import fishing.fishing_agent as fishing_agent
 
 
 class MainAgent:
@@ -25,8 +25,8 @@ def update_screen(agent):
     while True:
         raw = root.get_image(0, 0, width, height, X.ZPixmap, 0xffffff)
         agent.cur_img = Image.frombytes("RGB", (width, height), raw.data, "raw", "BGRX")
-        print("Screen updated")
-        time.sleep(1)
+        print("update")
+        time.sleep(0.01)
 
 
 def run():
@@ -36,6 +36,11 @@ def run():
 
     mana_bar_thread = Thread(target=mana_bar.watch_mana, args=(main_agent,), name="mana bar")
     mana_bar_thread.start()
+
+    fishing_agent_thread = fishing_agent.FishingAgent(main_agent)
+    time.sleep(5)
+    fishing_agent_thread.run()
+
 
 if __name__ == '__main__':
     wowzer.run()
