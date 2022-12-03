@@ -37,11 +37,18 @@ class FishingAgent:
 
     def watch_lure(self):
         time_start = time.time()
+        zone = "Feralas"
         while True:
             pixel = self.main_agent.cur_imgHSV[self.lure_location[1] + 25][self.lure_location[0]]
-            if pixel[0] >= 20 or pixel[1] < 60 or pixel[2] < 40 or time.time() - time_start >= 30:
-                print("Bite detected!")
-                break
+            if zone == "Dustwallow":
+                if pixel[0] >= 20 or pixel[1] < 60 or pixel[2] < 40 or time.time() - time_start >= 30:
+                    print("Bite detected!")
+                    break
+            if zone == "Feralas":
+                print(pixel[0])
+                if pixel[0] >= 60 or time.time() - time_start >= 30:
+                    print("Bite detected!")
+                    break
         self.pull_line()
 
     def pull_line(self):
