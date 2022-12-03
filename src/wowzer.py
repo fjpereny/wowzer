@@ -20,7 +20,7 @@ def run():
     header += "* " + APP_NAME + " version " + APP_VERSION + " <" + WEBSITE_LINK + ">.\n"
     header += "* Copyright (C) " + COPYRIGHT_YEAR + " " + AUTHOR + "\n"
     header += "*\n"
-    header += "* " + APP_NAME + " is free software: you can redistribute it and/or modify it under the terms of the\n"
+    header += "* " + APP_NAME + " is free software: you can redistribute 1it and/or modify it under the terms of the\n"
     header += "* GNU General Public License as published by the Free Software Foundation, either version 3\n"
     header += "* of the License, or (at your option) any later version.\n"
     header += "*\n"
