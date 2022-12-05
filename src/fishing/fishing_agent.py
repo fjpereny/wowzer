@@ -65,15 +65,18 @@ class FishingAgent:
         if self.main_agent.cur_img is None:
             print("Image capture not found!  Did you start the screen capture thread?")
             return
-        print("Starting fishing thread in 5 seconds...")
-        time.sleep(5)
+        print("Starting fishing thread in 10 seconds...")
+        time.sleep(10)
+        
         print("Switching to fishing hotbar (hotbar 6)")
         pyautogui.keyDown('shift')
         pyautogui.press('6')
         pyautogui.keyUp('shift')
+        time.sleep(1)
+        
         update_screen_thread = Thread(
             target=self.cast_lure, 
             args=(),
             name="fishing thread",
-            daemon=True)
+            daemon=True)    
         update_screen_thread.start()
