@@ -67,6 +67,10 @@ class FishingAgent:
             return
         print("Starting fishing thread in 5 seconds...")
         time.sleep(5)
+        print("Switching to fishing hotbar (hotbar 6)")
+        pyautogui.keyDown('shift')
+        pyautogui.press('6')
+        pyautogui.keyUp('shift')
         update_screen_thread = Thread(
             target=self.cast_lure, 
             args=(),
