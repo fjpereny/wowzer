@@ -55,6 +55,7 @@ def update_screen(agent):
 def print_menu():
     print('Enter a command:')
     print('\tS\tStart main AI agent screen capture.')
+    print('\tZ\tSet zone')
     print('\tF\tStart fishing.')
     print('\tQ\tQuit wowzer.')
 
@@ -76,7 +77,10 @@ def run():
 
         elif user_input == 'f':        
             fishing_agent_thread = fishing_agent.FishingAgent(main_agent)
-            fishing_agent_thread.run()            
+            fishing_agent_thread.run()
+
+        elif user_input == 'z':
+            main_agent.zone = input().title().strip()
 
         elif user_input == 'q':
             print("Shutting down wowzer.")
