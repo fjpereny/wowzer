@@ -11,24 +11,32 @@ import sight.mana_bar as mana_bar
 import fishing.fishing_agent as fishing_agent
 
 
+FPS_REPORT_DELAY = 3
+
+
 class MainAgent:
     def __init__(self):
+        self.running_threads = []
+        self.fishing_thread = None
+
         self.cur_img = None
         self.cur_imgHSV = None
+
+        self.zone = "Feralas"
+        self.time = "night"
 
 
 def update_screen(agent):
     print("Starting computer vision screen update...")
     dsp = display.Display()
     screen = dsp.screen()
-    root = screen.root
     width = screen.width_in_pixels
     height = screen.height_in_pixels
     print("Detected display resolution: " + str(width) + " x " + str(height))
 
-    loop_time = time.time()
-    show_fps = False
 
+    loop_time = time.time()
+    fps_print_time = time.time()
     while True:
         screenshot = ImageGrab.grab()
         screenshot = np.array(screenshot)
@@ -37,26 +45,48 @@ def update_screen(agent):
         agent.cur_img = screenshot
         agent.cur_imgHSV = screenshotHSV
 
-        # cv_scale = 0.35
-        # comp_vision = cv.resize(screenshot, (0, 0), fx=cv_scale, fy=cv_scale)
-        # cv.imshow("Computer Vision", comp_vision)
-        # print('FPS: {}'.format(1 / (time.time() - loop_time)))
-        loop_time = time.time()
+        cur_time = time.time()
+        if cur_time - fps_print_time >= FPS_REPORT_DELAY:
+            print('FPS: {}'.format(1 / (cur_time - loop_time)))
+            fps_print_time = cur_time
+        loop_time = cur_time
         cv.waitKey(1)
 
+def print_menu():
+    print('Enter a command:')
+    print('\tS\tStart main AI agent screen capture.')
+    print('\tF\tStart fishing.')
+    print('\tQ\tQuit wowzer.')
 
 def run():
     main_agent = MainAgent()
-    update_screen_thread = Thread(target=update_screen, args=(main_agent,), name="update screen thread")
-    update_screen_thread.start()
 
-    # mana_bar_thread = Thread(target=mana_bar.watch_mana, args=(main_agent,), name="mana bar")
-    # mana_bar_thread.start()
+    print_menu()
+    while True:
+        user_input = input()
+        user_input = str.lower(user_input).strip()
 
-    fishing_agent_thread = fishing_agent.FishingAgent(main_agent)
-    time.sleep(5)
-    fishing_agent_thread.run()
+        if user_input == 's':
+            update_screen_thread = Thread(
+                target=update_screen, 
+                args=(main_agent,), 
+                name="update screen thread",
+                daemon=True)
+            update_screen_thread.start()
 
+        elif user_input == 'f':        
+            fishing_agent_thread = fishing_agent.FishingAgent(main_agent)
+            fishing_agent_thread.run()            
 
+        elif user_input == 'q':
+            print("Shutting down wowzer.")
+            break       
+        
+        else:
+            print("Invalid entry.")
+            print_menu()
+
+    print("Done.")
+    
 if __name__ == '__main__':
     wowzer.run()

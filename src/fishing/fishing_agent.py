@@ -37,15 +37,20 @@ class FishingAgent:
 
     def watch_lure(self):
         time_start = time.time()
-        zone = "Feralas"
         while True:
-            pixel = self.main_agent.cur_imgHSV[self.lure_location[1] + 25][self.lure_location[0]]
-            if zone == "Dustwallow":
+            pixel = self.main_agent.cur_imgHSV[self.lure_location[1] + 25][self.lure_location[0]]            
+            if self.main_agent.zone == "Dustwallow":
                 if pixel[0] >= 20 or pixel[1] < 60 or pixel[2] < 40 or time.time() - time_start >= 30:
                     print("Bite detected!")
                     break
-            if zone == "Feralas":
-                print(pixel[0])
+            elif self.main_agent.zone == "Feralas" and self.main_agent.time == "night":
+                if pixel[0] >= 70:
+                    print("Bite detected!")
+                    break
+                if time.time() - time_start >= 30:
+                    print("Fishing timeout!")
+                    break
+            elif self.main_agent.zone == "Feralas":
                 if pixel[0] >= 60 or time.time() - time_start >= 30:
                     print("Bite detected!")
                     break
@@ -54,7 +59,17 @@ class FishingAgent:
     def pull_line(self):
         os.system("sh -c 'xdotool keydown Shift_L; sleep 0.1; xdotool mousedown 3; sleep 0.1; xdotool mouseup 3; sleep 0.1; xdotool keyup Shift_L; sleep 0.1'")
         time.sleep(3)
+        self.run()
 
     def run(self):
-        while True:
-            self.cast_lure()
+        if self.main_agent.cur_img is None:
+            print("Image capture not found!  Did you start the screen capture thread?")
+            return
+        print("Starting fishing thread in 5 seconds...")
+        time.sleep(5)
+        update_screen_thread = Thread(
+            target=self.cast_lure, 
+            args=(),
+            name="fishing thread",
+            daemon=True)
+        update_screen_thread.start()
