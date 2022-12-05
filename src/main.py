@@ -80,6 +80,10 @@ def run():
             fishing_agent_thread.run()
 
         elif user_input == 'z':
+            print('Enter zone name:')
+            print('\tOptions:')
+            print('\t\tDustwallow')
+            print('\t\tFeralas')
             main_agent.zone = input().title().strip()
 
         elif user_input == 'q':
