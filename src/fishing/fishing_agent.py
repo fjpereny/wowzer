@@ -11,6 +11,7 @@ class FishingAgent:
     def __init__(self, main_agent):
         self.main_agent = main_agent
         self.fishing_target = cv.imread("/home/frank/Git/wowzer/src/fishing/assets/fishing_target.png")
+        self.fishing_thread = None
 
     def cast_lure(self):
         print("Casting!...")
@@ -74,9 +75,9 @@ class FishingAgent:
         pyautogui.keyUp('shift')
         time.sleep(1)
         
-        update_screen_thread = Thread(
+        self.fishing_thread = Thread(
             target=self.cast_lure, 
             args=(),
             name="fishing thread",
             daemon=True)    
-        update_screen_thread.start()
+        self.fishing_thread.start()

@@ -5,7 +5,7 @@ from threading import Thread
 import wowzer
 from Xlib import display, X
 import numpy as np
-import cv2 as cv
+import cv2 as cv    
 
 import sight.mana_bar as mana_bar
 import fishing.fishing_agent as fishing_agent
@@ -16,7 +16,7 @@ FPS_REPORT_DELAY = 3
 
 class MainAgent:
     def __init__(self):
-        self.running_threads = []
+        self.agents = []
         self.fishing_thread = None
 
         self.cur_img = None
@@ -76,8 +76,8 @@ def run():
             update_screen_thread.start()
 
         elif user_input == 'f':        
-            fishing_agent_thread = fishing_agent.FishingAgent(main_agent)
-            fishing_agent_thread.run()
+            agent = fishing_agent.FishingAgent(main_agent)
+            agent.run()
 
         elif user_input == 'z':
             print('Enter zone name:')
