@@ -41,3 +41,4 @@ if __name__ == "__main__":
         daemon=False)
     update_screen_thread.start()
     print("Thread started")
+    

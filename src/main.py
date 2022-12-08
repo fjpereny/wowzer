@@ -23,7 +23,7 @@ class MainAgent:
         self.cur_imgHSV = None
 
         self.zone = "Feralas"
-        self.time = "night"
+        self.time = "day"
 
 
 def update_screen(agent):
