@@ -52,9 +52,11 @@ class FishingAgent:
                     print("Fishing timeout!")
                     break
             elif self.main_agent.zone == "Feralas":
+                print("Feralas")
                 if pixel[0] >= 60 or time.time() - time_start >= 30:
                     print("Bite detected!")
                     break
+            print(pixel)
         self.pull_line()
 
     def pull_line(self):
