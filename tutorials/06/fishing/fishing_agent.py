@@ -39,14 +39,32 @@ class FishingAgent:
 
     def move_to_lure(self, max_loc):
         pyautogui.moveTo(max_loc[0], max_loc[1], 1, pyautogui.easeOutQuad)
+        self.watch_lure(max_loc)
 
     def watch_lure(self, max_loc):
-        pass
+        watch_time = time.time()
+        while True:
+            pixel = self.main_agent.cur_imgHSV[max_loc[1] + 25, max_loc[0]]
+            print(pixel)
 
+            if self.main_agent.zone == "Feralas" and self.main_agent.time == "night":
+                if pixel[0] >= 60:
+                    print("Bite detected!")
+                    break
+
+            if time.time() - watch_time >= 10:
+                print("Fishing timeout")
+                break   
+
+        self.pull_line()
 
     def pull_line(self):
-        pass
-
+        print("Pulling line!")
+        pyautogui.keyDown('shift')
+        time.sleep(0.005)
+        pyautogui.click(button='right')
+        time.sleep(0.010)
+        pyautogui.keyUp('shift')
 
     def run(self):
         while True:
