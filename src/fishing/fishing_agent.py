@@ -10,7 +10,16 @@ import os
 class FishingAgent:
     def __init__(self, main_agent):
         self.main_agent = main_agent
-        self.fishing_target = cv.imread("/home/frank/Git/wowzer/src/fishing/assets/fishing_target.png")
+        
+        # interpolate here_path to get the path to the fishing target image
+        here_path = os.path.dirname(os.path.realpath(__file__))
+        self.fishing_target = cv.imread(
+            os.path.join(
+                here_path,
+                "assets", "fishing_target.png"
+            )
+        )
+        
         self.fishing_thread = None
 
     def cast_lure(self):
