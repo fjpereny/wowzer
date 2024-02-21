@@ -69,8 +69,9 @@ class FishingAgent:
         self.pull_line()
 
     def pull_line(self):
-        os.system("sh -c 'xdotool keydown Shift_L; sleep 0.1; xdotool mousedown 3; sleep 0.1; xdotool mouseup 3; sleep 0.1; xdotool keyup Shift_L; sleep 0.1'")
-        time.sleep(3)
+        pyautogui.rightClick()
+        # os.system("sh -c 'xdotool keydown Shift_L; sleep 0.1; xdotool mousedown 3; sleep 0.1; xdotool mouseup 3; sleep 0.1; xdotool keyup Shift_L; sleep 0.1'")
+        time.sleep(1)
         self.run()
 
     def run(self):
@@ -80,9 +81,9 @@ class FishingAgent:
         print("Starting fishing thread in 10 seconds...")
         time.sleep(10)
         
-        print("Switching to fishing hotbar (hotbar 6)")
+        print("Switching to fishing hotbar (hotbar 4)")
         pyautogui.keyDown('shift')
-        pyautogui.press('6')
+        pyautogui.press('4')
         pyautogui.keyUp('shift')
         time.sleep(1)
         
